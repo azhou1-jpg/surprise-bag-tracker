@@ -153,6 +153,7 @@ function render() {
   el('sheet-price').textContent = order.price;
   el('code-box').textContent = order.orderId;
 
+  const cardGroup = el('card-group');
   const storeBlock = el('store-block');
   const ribbon = el('ribbon');
   const preRows = el('pre-rows');
@@ -164,6 +165,7 @@ function render() {
   const needHelp = el('need-help');
 
   if (order.status === 'pickedUp') {
+    cardGroup.classList.add('merged');
     storeBlock.classList.add('row-layout');
     ribbon.classList.remove('hidden');
     preRows.classList.add('hidden');
@@ -175,6 +177,7 @@ function render() {
     needHelp.classList.remove('hidden');
     renderStars();
   } else {
+    cardGroup.classList.remove('merged');
     storeBlock.classList.remove('row-layout');
     ribbon.classList.add('hidden');
     preRows.classList.remove('hidden');

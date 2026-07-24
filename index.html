@@ -42,13 +42,13 @@
         </div>
       </div>
 
-      <div class="card" id="main-card">
+      <div class="card-group" id="card-group">
         <div class="ribbon hidden" id="ribbon">
           <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="11" fill="none" stroke="#fff" stroke-width="2"/><path d="M7 12.5 L10.5 16 L17 8.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span>Picked up</span>
         </div>
 
-        <div class="card-body">
+        <div class="card card-store" id="card-store">
           <!-- store block: centered (pre-pickup) or row (picked up) -->
           <div class="store-block" id="store-block">
             <label class="store-logo" id="store-logo" for="logo-file-input" aria-label="Upload store photo">
@@ -67,7 +67,9 @@
               </a>
             </div>
           </div>
+        </div>
 
+        <div class="card card-details" id="card-details">
           <div class="tabs" id="tabs">
             <button class="tab active" data-tab="pickup">I'm picking up</button>
             <button class="tab" data-tab="friend">Ask a friend</button>

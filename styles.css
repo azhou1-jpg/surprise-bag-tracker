@@ -99,11 +99,37 @@ html, body {
 }
 .star.filled { color: #fff; transform: scale(1.05); }
 
+.card-group { display: flex; flex-direction: column; }
+
 .card {
   background: var(--card);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.05);
+}
+
+.card-store {
+  padding: 20px 18px;
+  margin-bottom: 14px;
+}
+.card-details {
+  padding: 4px 18px 8px;
+}
+
+/* Picked-up state: the two cards visually merge into one bordered card
+   under the ribbon (matches the original app's post-pickup layout). */
+.card-group.merged .card-store {
+  margin-bottom: 0;
+  border-radius: 0;
+  box-shadow: none;
+  border-left: 1.5px solid var(--teal);
+  border-right: 1.5px solid var(--teal);
+}
+.card-group.merged .card-details {
+  border-radius: 0 0 16px 16px;
+  border-left: 1.5px solid var(--teal);
+  border-right: 1.5px solid var(--teal);
+  border-bottom: 1.5px solid var(--teal);
 }
 
 .ribbon {
@@ -116,9 +142,8 @@ html, body {
   font-weight: 600;
   font-size: 14px;
   padding: 10px;
+  border-radius: 16px 16px 0 0;
 }
-
-.card-body { padding: 20px 18px 8px; }
 
 .store-block {
   display: flex;
@@ -126,7 +151,6 @@ html, body {
   align-items: center;
   text-align: center;
   gap: 4px;
-  margin-bottom: 14px;
 }
 .store-block.row-layout {
   flex-direction: row;
