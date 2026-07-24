@@ -1,13 +1,13 @@
 :root {
-  --cream: #FBF3EC;
+  --cream: #FFFBFA;
   --card: #FFFFFF;
-  --teal: #0B4F4A;
-  --teal-dark: #093F3B;
-  --green: #3F8F6D;
-  --gray-label: #9B9B9B;
-  --gray-text: #6E6E6E;
-  --ink: #1D1D1D;
-  --border: #EFE6DC;
+  --teal: #035658;
+  --teal-dark: #023F40;
+  --green: #2E8F67;
+  --gray-label: #75797A;
+  --gray-text: #333333;
+  --ink: #141414;
+  --border: #ECECEC;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
