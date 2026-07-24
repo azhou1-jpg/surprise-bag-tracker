@@ -51,9 +51,13 @@
         <div class="card-body">
           <!-- store block: centered (pre-pickup) or row (picked up) -->
           <div class="store-block" id="store-block">
-            <div class="store-logo" id="store-logo">
+            <button class="store-logo" id="store-logo" type="button" aria-label="Upload store photo">
               <svg viewBox="0 0 48 48" width="30" height="30"><path d="M14 20 L34 20 L36.5 38 Q36.5 40 34.5 40 L13.5 40 Q11.5 40 11.5 38 Z" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M18 20 L18 16 Q18 10 24 10 Q30 10 30 16 L30 20" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
-            </div>
+              <span class="logo-edit-badge">
+                <svg viewBox="0 0 24 24" width="12" height="12"><path d="M4 13v-1a8 8 0 0 1 16 0v1" fill="none" stroke="#fff" stroke-width="0"/><path d="M14.5 4.5l5 5L8 21l-5.5 1L4 16.5z" fill="none" stroke="#fff" stroke-width="2"/></svg>
+              </span>
+            </button>
+            <input type="file" accept="image/*" id="logo-file-input" class="hidden">
             <div class="store-text">
               <div class="store-name" id="store-name">Acme Bread — Ferry Building</div>
               <div class="store-address" id="store-address">1 Ferry Building, San Francisco, CA 94111, USA</div>
@@ -189,6 +193,10 @@
         <svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
       </button>
       <h2>Edit order</h2>
+      <div class="photo-row">
+        <button class="btn-secondary" id="btn-upload-photo" type="button">Upload store photo</button>
+        <button class="btn-secondary" id="btn-remove-photo" type="button">Remove photo</button>
+      </div>
       <div class="form">
         <label>Store name<input id="f-store-name" type="text"></label>
         <label>Address<input id="f-store-address" type="text"></label>

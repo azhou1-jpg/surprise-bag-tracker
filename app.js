@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'sbt_order_v2';
+const LOGO_KEY = 'sbt_logo_image_v1';
 const TEXT_FIELDS = ['storeName', 'storeAddress', 'item', 'price', 'date', 'window', 'payment', 'packaging', 'foodsafety'];
 
 function genOrderId() {
@@ -48,6 +49,39 @@ function pick(obj, keys) {
   return out;
 }
 
+function loadLogoImage() {
+  try {
+    return localStorage.getItem(LOGO_KEY);
+  } catch (e) {
+    return null;
+  }
+}
+
+function resizeImageFile(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = () => {
+      img.onerror = reject;
+      img.onload = () => {
+        const size = 200;
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const scale = Math.max(size / img.width, size / img.height);
+        const w = img.width * scale;
+        const h = img.height * scale;
+        ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.85));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 let order;
 
 const el = (id) => document.getElementById(id);
@@ -89,7 +123,19 @@ async function init() {
   render();
 }
 
+function renderLogo() {
+  const logoEl = el('store-logo');
+  const dataUrl = loadLogoImage();
+  const badge = '<span class="logo-edit-badge"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M14.5 4.5l5 5L8 21l-5.5 1L4 16.5z" fill="none" stroke="#fff" stroke-width="2"/></svg></span>';
+  if (dataUrl) {
+    logoEl.innerHTML = `<img src="${dataUrl}" alt="">${badge}`;
+  } else {
+    logoEl.innerHTML = `<svg viewBox="0 0 48 48" width="30" height="30"><path d="M14 20 L34 20 L36.5 38 Q36.5 40 34.5 40 L13.5 40 Q11.5 40 11.5 38 Z" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M18 20 L18 16 Q18 10 24 10 Q30 10 30 16 L30 20" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>${badge}`;
+  }
+}
+
 function render() {
+  renderLogo();
   el('store-name').textContent = order.storeName;
   el('store-address').textContent = order.storeAddress;
   el('val-date').textContent = order.date;
@@ -154,6 +200,31 @@ el('stars').addEventListener('click', (e) => {
   order.rating = Number(btn.dataset.v);
   saveOrder(order);
   renderStars();
+});
+
+const logoFileInput = el('logo-file-input');
+
+async function handleLogoFile(file) {
+  if (!file) return;
+  try {
+    const dataUrl = await resizeImageFile(file);
+    localStorage.setItem(LOGO_KEY, dataUrl);
+    renderLogo();
+  } catch (e) {
+    // ignore unreadable file
+  }
+}
+
+el('store-logo').addEventListener('click', () => logoFileInput.click());
+logoFileInput.addEventListener('change', (e) => {
+  handleLogoFile(e.target.files[0]);
+  e.target.value = '';
+});
+
+el('btn-upload-photo').addEventListener('click', () => logoFileInput.click());
+el('btn-remove-photo').addEventListener('click', () => {
+  localStorage.removeItem(LOGO_KEY);
+  renderLogo();
 });
 
 el('find-store').addEventListener('click', (e) => {
