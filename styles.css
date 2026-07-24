@@ -101,7 +101,7 @@ html, body {
 
 .card {
   background: var(--card);
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.05);
 }
@@ -148,15 +148,15 @@ html, body {
   font-size: 22px;
   flex-shrink: 0;
 }
-.store-block:not(.row-layout) .store-logo { margin-bottom: 6px; }
+.store-block:not(.row-layout) .store-logo { margin-bottom: 10px; }
 
-.store-name { font-weight: 700; font-size: 16px; }
-.store-address { color: var(--gray-text); font-size: 13px; margin-top: 2px; }
+.store-name { font-weight: 700; font-size: 18px; }
+.store-address { color: var(--gray-text); font-size: 14.5px; margin-top: 3px; }
 
 .find-store {
   color: var(--teal);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 14.5px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -164,6 +164,12 @@ html, body {
   margin-top: 6px;
 }
 .store-block.row-layout .find-store { display: none; }
+.store-block.row-layout .store-text { min-width: 0; }
+.store-block.row-layout .store-address {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .tabs {
   display: flex;
@@ -175,19 +181,19 @@ html, body {
   background: none;
   border: none;
   padding: 10px 4px 12px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--gray-label);
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   cursor: pointer;
 }
 .tab.active { color: var(--teal); border-bottom-color: var(--teal); }
 
-.rows { padding: 14px 0 4px; }
+.rows { padding: 16px 0 4px; }
 .row {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 16px;
+  padding-bottom: 24px;
 }
 .row.single .col { width: 100%; }
 .col.right { text-align: right; }
@@ -197,9 +203,9 @@ html, body {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--gray-label);
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
-.value { font-size: 15px; font-weight: 600; }
+.value { font-size: 17px; font-weight: 600; }
 
 .text-block {
   border-top: 1px solid var(--border);
@@ -226,7 +232,7 @@ html, body {
 
 .bottom-bar {
   flex-shrink: 0;
-  padding: 10px 16px calc(env(safe-area-inset-bottom) + 14px);
+  padding: 10px 26px calc(env(safe-area-inset-bottom) + 14px);
   background: linear-gradient(to top, var(--cream) 60%, rgba(251,243,236,0));
 }
 
