@@ -1,4 +1,5 @@
-const STORAGE_KEY = 'sbt_order_v1';
+const STORAGE_KEY = 'sbt_order_v2';
+const TEXT_FIELDS = ['storeName', 'storeAddress', 'item', 'price', 'date', 'window', 'payment', 'packaging', 'foodsafety'];
 
 function genOrderId() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -7,8 +8,9 @@ function genOrderId() {
   return s;
 }
 
-function defaultOrder() {
+function fallbackContent() {
   return {
+    version: 0,
     storeName: 'Sunrise Bakery — Ferry Building',
     storeAddress: '1 Ferry Building, San Francisco, CA 94111, USA',
     item: '1x Surprise Bag',
@@ -17,21 +19,16 @@ function defaultOrder() {
     window: '5:45 PM - 6:00 PM',
     payment: 'Apple Pay: Mastercard',
     packaging: 'The store will provide packaging for your food, but we encourage you to bring your own bag to carry it home in.',
-    foodsafety: 'Storing Bread at Room Temperature (in a cool, dry place - not the fridge): To maintain a texture contrast between the interior and exterior of the loaf, keep the loaf in its paper bag and store the bag in a bread box or a drawer.',
-    orderId: genOrderId(),
-    status: 'confirmed', // 'confirmed' | 'pickedUp'
-    pickedUpDate: null,
-    rating: 0
+    foodsafety: 'Storing Bread at Room Temperature (in a cool, dry place - not the fridge): To maintain a texture contrast between the interior and exterior of the loaf, keep the loaf in its paper bag and store the bag in a bread box or a drawer.'
   };
 }
 
-function loadOrder() {
+function loadStoredSession() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return defaultOrder();
-    return { ...defaultOrder(), ...JSON.parse(raw) };
+    return raw ? JSON.parse(raw) : null;
   } catch (e) {
-    return defaultOrder();
+    return null;
   }
 }
 
@@ -39,12 +36,61 @@ function saveOrder(order) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(order));
 }
 
-let order = loadOrder();
+async function fetchRemoteContent() {
+  const res = await fetch(`content.json?t=${Date.now()}`, { cache: 'no-store' });
+  if (!res.ok) throw new Error('content fetch failed');
+  return res.json();
+}
+
+function pick(obj, keys) {
+  const out = {};
+  keys.forEach((k) => { out[k] = obj[k]; });
+  return out;
+}
+
+let order;
 
 const el = (id) => document.getElementById(id);
 
 function initials(name) {
   return (name.trim()[0] || '?').toUpperCase();
+}
+
+async function init() {
+  const stored = loadStoredSession();
+  let remote = null;
+  try {
+    remote = await fetchRemoteContent();
+  } catch (e) {
+    remote = null;
+  }
+
+  if (!remote && !stored) {
+    remote = fallbackContent();
+  }
+
+  if (!remote) {
+    // offline and we have a stored session already — just use it as-is
+    order = stored;
+  } else {
+    const versionChanged = !stored || stored.version !== remote.version;
+    const useRemoteText = versionChanged || !stored.localOverride;
+
+    const text = useRemoteText ? pick(remote, TEXT_FIELDS) : pick(stored, TEXT_FIELDS);
+    const session = versionChanged
+      ? { orderId: genOrderId(), status: 'confirmed', pickedUpDate: null, rating: 0 }
+      : { orderId: stored.orderId, status: stored.status, pickedUpDate: stored.pickedUpDate, rating: stored.rating };
+
+    order = {
+      ...text,
+      ...session,
+      version: remote.version,
+      localOverride: versionChanged ? false : Boolean(stored && stored.localOverride)
+    };
+  }
+
+  saveOrder(order);
+  render();
 }
 
 function render() {
@@ -235,15 +281,15 @@ el('btn-save-edit').addEventListener('click', () => {
   order.payment = el('f-payment').value || order.payment;
   order.packaging = el('f-packaging').value || order.packaging;
   order.foodsafety = el('f-foodsafety').value || order.foodsafety;
+  order.localOverride = true;
   saveOrder(order);
   render();
   editOverlay.classList.add('hidden');
 });
 
 el('btn-new-order').addEventListener('click', () => {
-  const keep = { ...order };
   order = {
-    ...keep,
+    ...order,
     orderId: genOrderId(),
     status: 'confirmed',
     pickedUpDate: null,
@@ -254,10 +300,16 @@ el('btn-new-order').addEventListener('click', () => {
   editOverlay.classList.add('hidden');
 });
 
-render();
-
+// Clean up any previously-installed service worker/cache from an earlier
+// version of this app (it used to cache-first, which could serve stale
+// content). This app no longer uses one.
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js').catch(() => {});
+  navigator.serviceWorker.getRegistrations().then((regs) => {
+    regs.forEach((r) => r.unregister());
   });
 }
+if (window.caches) {
+  caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));
+}
+
+init();

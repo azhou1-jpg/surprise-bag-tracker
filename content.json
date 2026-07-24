@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "storeName": "Sunrise Bakery — Ferry Building",
+  "storeAddress": "1 Ferry Building, San Francisco, CA 94111, USA",
+  "item": "1x Surprise Bag",
+  "price": "$5.99",
+  "date": "Jul 23, 2026",
+  "window": "5:45 PM - 6:00 PM",
+  "payment": "Apple Pay: Mastercard",
+  "packaging": "The store will provide packaging for your food, but we encourage you to bring your own bag to carry it home in.",
+  "foodsafety": "Storing Bread at Room Temperature (in a cool, dry place - not the fridge): To maintain a texture contrast between the interior and exterior of the loaf, keep the loaf in its paper bag and store the bag in a bread box or a drawer."
+}
