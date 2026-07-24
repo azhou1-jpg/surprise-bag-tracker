@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Surprise Bag Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FBF3EC">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Surprise Bag">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/favicon-32.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== Main order screen ===== -->
+  <div class="screen" id="screen-order">
+    <header class="topbar">
+      <button class="icon-btn" id="btn-back" aria-label="Edit order">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <h1>Your order</h1>
+      <span class="icon-btn spacer"></span>
+    </header>
+
+    <div class="content" id="scroll-content">
+
+      <!-- Rating banner (picked up state only) -->
+      <div class="rating-banner hidden" id="rating-banner">
+        <p>How was your overall experience?</p>
+        <div class="stars" id="stars">
+          <button class="star" data-v="1">★</button>
+          <button class="star" data-v="2">★</button>
+          <button class="star" data-v="3">★</button>
+          <button class="star" data-v="4">★</button>
+          <button class="star" data-v="5">★</button>
+        </div>
+      </div>
+
+      <div class="card" id="main-card">
+        <div class="ribbon hidden" id="ribbon">
+          <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="11" fill="none" stroke="#fff" stroke-width="2"/><path d="M7 12.5 L10.5 16 L17 8.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Picked up</span>
+        </div>
+
+        <div class="card-body">
+          <!-- store block: centered (pre-pickup) or row (picked up) -->
+          <div class="store-block" id="store-block">
+            <div class="store-logo" id="store-logo">A</div>
+            <div class="store-text">
+              <div class="store-name" id="store-name">Acme Bread — Ferry Building</div>
+              <div class="store-address" id="store-address">1 Ferry Building, San Francisco, CA 94111, USA</div>
+              <a href="#" class="find-store" id="find-store">
+                <span>Find store</span>
+                <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 2c-4 0-7 3.1-7 7 0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3-7-7-7z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9" r="2.3" fill="currentColor"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="tabs" id="tabs">
+            <button class="tab active" data-tab="pickup">I'm picking up</button>
+            <button class="tab" data-tab="friend">Ask a friend</button>
+          </div>
+
+          <div class="rows" id="pre-rows">
+            <div class="row">
+              <div class="col">
+                <div class="label">Date</div>
+                <div class="value" id="val-date">Jul 23, 2026</div>
+              </div>
+              <div class="col right">
+                <div class="label">Pick-up window</div>
+                <div class="value" id="val-window">5:45 PM - 6:00 PM</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="label" id="label-item">Surprise bag</div>
+                <div class="value" id="val-item">1x Surprise Bag</div>
+              </div>
+              <div class="col right">
+                <div class="label">Total</div>
+                <div class="value" id="val-price">$5.99</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rows hidden" id="post-rows">
+            <div class="row">
+              <div class="col">
+                <div class="label">Picked up</div>
+                <div class="value" id="val-pickedup-date">Jul 23, 2026</div>
+              </div>
+              <div class="col right">
+                <div class="label">Order ID</div>
+                <div class="value" id="val-orderid">N9WN2Z96EWFS1</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="label" id="label-item-2">Surprise bag</div>
+                <div class="value" id="val-item-2">1x Surprise Bag</div>
+              </div>
+              <div class="col right">
+                <div class="label">Total</div>
+                <div class="value" id="val-price-2">$5.99</div>
+              </div>
+            </div>
+            <div class="row single">
+              <div class="col">
+                <div class="label">Payment method</div>
+                <div class="value" id="val-payment">Apple Pay: Mastercard</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-block" id="pre-text">
+            <div class="label">Packaging</div>
+            <p id="val-packaging">The store will provide packaging for your food, but we encourage you to bring your own bag to carry it home in.</p>
+            <div class="label">Food safety</div>
+            <p id="val-foodsafety">Storing Bread at Room Temperature (in a cool, dry place - not the fridge): To maintain a texture contrast between the interior and exterior of the loaf, keep the loaf in its paper bag and store the bag in a bread box or a drawer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="need-help hidden" id="need-help">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 13v-1a8 8 0 0 1 16 0v1" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="13" width="4" height="6" rx="2" fill="currentColor"/><rect x="17" y="13" width="4" height="6" rx="2" fill="currentColor"/></svg>
+        <span>Need help?</span>
+      </div>
+    </div>
+
+    <div class="bottom-bar" id="bottom-bar">
+      <button class="btn-primary" id="btn-tap-pickup">Tap to pick up</button>
+    </div>
+  </div>
+
+  <!-- ===== Bottom sheet modal ===== -->
+  <div class="overlay hidden" id="overlay">
+    <div class="sheet" id="sheet">
+      <button class="sheet-close" id="sheet-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+
+      <h2>Order to be picked up</h2>
+      <div class="sheet-item">
+        <span id="sheet-item-label">1x Surprise Bag</span>
+        <strong id="sheet-price">$5.99</strong>
+      </div>
+
+      <div class="code-box" id="code-box">N9WN2Z96EWFS1</div>
+
+      <!-- swipe state -->
+      <div id="swipe-state">
+        <div class="warning">
+          <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="11" y="7" width="2" height="6" rx="1" fill="currentColor"/><rect x="11" y="15" width="2" height="2" rx="1" fill="currentColor"/></svg>
+          <span>Swipe only when staff are present</span>
+        </div>
+
+        <div class="swipe-track" id="swipe-track">
+          <div class="swipe-knob" id="swipe-knob">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="swipe-label">Swipe to pick up</span>
+        </div>
+      </div>
+
+      <!-- confirmed state -->
+      <div id="confirmed-state" class="hidden">
+        <div class="confirm-check">
+          <svg viewBox="0 0 24 24" width="26" height="26"><path d="M6 12.5 L10 17 L18 7.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="confirm-title">Pickup confirmed</p>
+        <p class="confirm-sub">Show this to the store staff to pick up your meal!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Edit order sheet ===== -->
+  <div class="overlay hidden" id="edit-overlay">
+    <div class="sheet edit-sheet">
+      <button class="sheet-close" id="edit-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+      <h2>Edit order</h2>
+      <div class="form">
+        <label>Store name<input id="f-store-name" type="text"></label>
+        <label>Address<input id="f-store-address" type="text"></label>
+        <label>Item<input id="f-item" type="text" placeholder="1x Surprise Bag"></label>
+        <label>Price<input id="f-price" type="text" placeholder="$5.99"></label>
+        <label>Date<input id="f-date" type="text" placeholder="Jul 23, 2026"></label>
+        <label>Pick-up window<input id="f-window" type="text" placeholder="5:45 PM - 6:00 PM"></label>
+        <label>Payment method<input id="f-payment" type="text" placeholder="Apple Pay: Mastercard"></label>
+        <label>Packaging note<textarea id="f-packaging" rows="2"></textarea></label>
+        <label>Food safety note<textarea id="f-foodsafety" rows="3"></textarea></label>
+      </div>
+      <button class="btn-primary" id="btn-save-edit">Save</button>
+      <button class="btn-secondary" id="btn-new-order">Start a new order</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
