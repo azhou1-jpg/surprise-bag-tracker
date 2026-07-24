@@ -215,13 +215,11 @@ async function handleLogoFile(file) {
   }
 }
 
-el('store-logo').addEventListener('click', () => logoFileInput.click());
 logoFileInput.addEventListener('change', (e) => {
   handleLogoFile(e.target.files[0]);
   e.target.value = '';
 });
 
-el('btn-upload-photo').addEventListener('click', () => logoFileInput.click());
 el('btn-remove-photo').addEventListener('click', () => {
   localStorage.removeItem(LOGO_KEY);
   renderLogo();
