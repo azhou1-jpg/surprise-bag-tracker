@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "storeName": "Sunrise Bakery — Ferry Building",
+  "version": 3,
+  "storeName": "Acme Bread - Ferry Building",
   "storeAddress": "1 Ferry Building, San Francisco, CA 94111, USA",
   "item": "1x Surprise Bag",
   "price": "$5.99",

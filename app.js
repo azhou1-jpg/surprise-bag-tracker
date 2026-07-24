@@ -52,10 +52,6 @@ let order;
 
 const el = (id) => document.getElementById(id);
 
-function initials(name) {
-  return (name.trim()[0] || '?').toUpperCase();
-}
-
 async function init() {
   const stored = loadStoredSession();
   let remote = null;
@@ -96,7 +92,6 @@ async function init() {
 function render() {
   el('store-name').textContent = order.storeName;
   el('store-address').textContent = order.storeAddress;
-  el('store-logo').textContent = initials(order.storeName);
   el('val-date').textContent = order.date;
   el('val-window').textContent = order.window;
   el('val-item').textContent = order.item;
