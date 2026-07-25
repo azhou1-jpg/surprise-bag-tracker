@@ -171,16 +171,22 @@
 
         <div class="swipe-track" id="swipe-track">
           <div class="swipe-knob" id="swipe-knob">
-            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg id="swipe-knob-arrow" viewBox="0 0 24 24" width="20" height="20"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg id="swipe-knob-check" viewBox="0 0 24 24" width="20" height="20" class="hidden"><path d="M5 12.5 L9.5 17 L19 6.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <span class="swipe-label">Swipe to pick up</span>
         </div>
       </div>
 
+      <!-- brief processing pause between swipe-complete and confirmed -->
+      <div id="processing-state" class="hidden">
+        <div class="spinner"></div>
+      </div>
+
       <!-- confirmed state -->
       <div id="confirmed-state" class="hidden">
         <div class="confirm-check">
-          <svg viewBox="0 0 24 24" width="26" height="26"><path d="M6 12.5 L10 17 L18 7.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" width="26" height="26"><path id="confirm-check-path" d="M6 12.5 L10 17 L18 7.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <p class="confirm-title">Pickup confirmed</p>
         <p class="confirm-sub">Show this to the store staff to pick up your meal!</p>

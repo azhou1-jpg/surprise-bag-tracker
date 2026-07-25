@@ -249,6 +249,9 @@ const confirmedState = el('confirmed-state');
 el('btn-tap-pickup').addEventListener('click', () => {
   swipeState.classList.remove('hidden');
   confirmedState.classList.add('hidden');
+  el('processing-state').classList.add('hidden');
+  el('swipe-knob-check').classList.add('hidden');
+  el('swipe-knob-arrow').classList.remove('hidden');
   resetKnob();
   overlay.classList.remove('hidden');
 });
@@ -257,18 +260,35 @@ el('sheet-close').addEventListener('click', () => {
   overlay.classList.add('hidden');
 });
 
-function completePickup() {
-  const now = new Date();
-  order.status = 'pickedUp';
-  order.pickedUpDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  saveOrder(order);
-  swipeState.classList.add('hidden');
-  confirmedState.classList.remove('hidden');
-  const check = confirmedState.querySelector('.confirm-check');
-  check.classList.remove('pop-in');
-  void check.offsetWidth; // force reflow so the animation reliably restarts
-  check.classList.add('pop-in');
-  render();
+const processingState = el('processing-state');
+const knobArrow = el('swipe-knob-arrow');
+const knobCheck = el('swipe-knob-check');
+
+function runPickupSequence() {
+  // 1. knob icon swaps to a checkmark right where the drag ended
+  knobArrow.classList.add('hidden');
+  knobCheck.classList.remove('hidden');
+
+  // 2. brief processing pause before the confirmation appears
+  setTimeout(() => {
+    swipeState.classList.add('hidden');
+    processingState.classList.remove('hidden');
+
+    setTimeout(() => {
+      const now = new Date();
+      order.status = 'pickedUp';
+      order.pickedUpDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      saveOrder(order);
+
+      processingState.classList.add('hidden');
+      confirmedState.classList.remove('hidden');
+      const check = confirmedState.querySelector('.confirm-check');
+      check.classList.remove('pop-in');
+      void check.offsetWidth; // force reflow so the animation reliably restarts
+      check.classList.add('pop-in');
+      render();
+    }, 450);
+  }, 350);
 }
 
 // swipe-to-confirm gesture
@@ -306,7 +326,7 @@ function onPointerMove(e) {
   knob.style.transform = `translateX(${x}px)`;
   if (x >= maxX - 2) {
     dragging = false;
-    completePickup();
+    runPickupSequence();
   }
 }
 
