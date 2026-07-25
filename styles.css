@@ -358,9 +358,11 @@ html, body {
   letter-spacing: 0.05em;
   text-align: center;
   border-radius: 14px;
-  padding: 14px;
-  margin-bottom: 18px;
+  padding: 12px 20px;
+  margin: 0 auto 18px;
   font-size: 15px;
+  width: fit-content;
+  max-width: 80%;
 }
 .warning {
   display: flex;
