@@ -294,22 +294,32 @@ function runPickupSequence() {
 // swipe-to-confirm gesture
 const track = el('swipe-track');
 const knob = el('swipe-knob');
+const swipeFill = el('swipe-fill');
 let dragging = false;
 let startX = 0;
 let maxX = 0;
 
 function resetKnob() {
   knob.style.transform = 'translateX(0px)';
+  swipeFill.style.width = '100%';
 }
 
 function trackRange() {
   maxX = track.clientWidth - knob.clientWidth - 8;
 }
 
+function updateFill(x) {
+  // fill reaches exactly to the knob's trailing edge while dragging,
+  // revealing white ahead of it (matches the video's swipe interaction)
+  const fillPx = 4 + x + knob.clientWidth;
+  swipeFill.style.width = `${fillPx}px`;
+}
+
 function onPointerDown(e) {
   dragging = true;
   trackRange();
   startX = (e.touches ? e.touches[0].clientX : e.clientX) - currentKnobX();
+  updateFill(currentKnobX());
   knob.setPointerCapture && e.pointerId != null && knob.setPointerCapture(e.pointerId);
 }
 
@@ -324,6 +334,7 @@ function onPointerMove(e) {
   let x = clientX - startX;
   x = Math.max(0, Math.min(maxX, x));
   knob.style.transform = `translateX(${x}px)`;
+  updateFill(x);
   if (x >= maxX - 2) {
     dragging = false;
     runPickupSequence();
