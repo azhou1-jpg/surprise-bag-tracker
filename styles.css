@@ -391,6 +391,7 @@ html, body {
   bottom: 0;
   width: 100%;
   background: var(--teal);
+  border-radius: 26px;
   pointer-events: none;
   z-index: 1;
 }
