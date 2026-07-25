@@ -264,6 +264,10 @@ function completePickup() {
   saveOrder(order);
   swipeState.classList.add('hidden');
   confirmedState.classList.remove('hidden');
+  const check = confirmedState.querySelector('.confirm-check');
+  check.classList.remove('pop-in');
+  void check.offsetWidth; // force reflow so the animation reliably restarts
+  check.classList.add('pop-in');
   render();
 }
 

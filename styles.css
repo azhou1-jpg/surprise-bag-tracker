@@ -375,8 +375,8 @@ html, body {
 .swipe-track {
   position: relative;
   background: var(--teal);
-  border-radius: 30px;
-  height: 56px;
+  border-radius: 26px;
+  height: 50px;
   display: flex;
   align-items: center;
   padding: 4px;
@@ -395,8 +395,8 @@ html, body {
   position: absolute;
   left: 4px;
   top: 4px;
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   background: #fff;
   color: var(--teal);
@@ -418,8 +418,9 @@ html, body {
   align-items: center;
   justify-content: center;
   margin: 4px auto 16px;
-  animation: pop .3s ease;
+  opacity: 1;
 }
+.confirm-check.pop-in { animation: pop .3s ease; }
 .confirm-title {
   text-align: center;
   color: var(--teal);
