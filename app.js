@@ -126,11 +126,10 @@ async function init() {
 function renderLogo() {
   const logoEl = el('store-logo');
   const dataUrl = loadLogoImage();
-  const badge = '<span class="logo-edit-badge"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M14.5 4.5l5 5L8 21l-5.5 1L4 16.5z" fill="none" stroke="#fff" stroke-width="2"/></svg></span>';
   if (dataUrl) {
-    logoEl.innerHTML = `<img src="${dataUrl}" alt="">${badge}`;
+    logoEl.innerHTML = `<img src="${dataUrl}" alt="">`;
   } else {
-    logoEl.innerHTML = `<svg viewBox="0 0 48 48" width="30" height="30"><path d="M14 20 L34 20 L36.5 38 Q36.5 40 34.5 40 L13.5 40 Q11.5 40 11.5 38 Z" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M18 20 L18 16 Q18 10 24 10 Q30 10 30 16 L30 20" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>${badge}`;
+    logoEl.innerHTML = `<svg viewBox="0 0 48 48" width="30" height="30"><path d="M14 20 L34 20 L36.5 38 Q36.5 40 34.5 40 L13.5 40 Q11.5 40 11.5 38 Z" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M18 20 L18 16 Q18 10 24 10 Q30 10 30 16 L30 20" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>`;
   }
 }
 

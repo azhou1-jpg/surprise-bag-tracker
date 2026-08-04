@@ -182,19 +182,6 @@ html, body {
   height: 100%;
   object-fit: cover;
 }
-.logo-edit-badge {
-  position: absolute;
-  bottom: -1px;
-  right: -1px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--ink);
-  border: 2px solid var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .store-block:not(.row-layout) .store-logo { margin-bottom: 10px; }
 
 .store-name { font-weight: 700; font-size: 18px; }
