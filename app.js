@@ -248,7 +248,6 @@ const confirmedState = el('confirmed-state');
 el('btn-tap-pickup').addEventListener('click', () => {
   swipeState.classList.remove('hidden');
   confirmedState.classList.add('hidden');
-  el('processing-state').classList.add('hidden');
   el('swipe-knob-check').classList.add('hidden');
   el('swipe-knob-arrow').classList.remove('hidden');
   resetKnob();
@@ -259,7 +258,6 @@ el('sheet-close').addEventListener('click', () => {
   overlay.classList.add('hidden');
 });
 
-const processingState = el('processing-state');
 const knobArrow = el('swipe-knob-arrow');
 const knobCheck = el('swipe-knob-check');
 
@@ -268,26 +266,22 @@ function runPickupSequence() {
   knobArrow.classList.add('hidden');
   knobCheck.classList.remove('hidden');
 
-  // 2. brief processing pause before the confirmation appears
+  // 2. brief hold on the completed track before the confirmation appears
+  //    (the video holds this for ~300ms with no separate loading state)
   setTimeout(() => {
+    const now = new Date();
+    order.status = 'pickedUp';
+    order.pickedUpDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    saveOrder(order);
+
     swipeState.classList.add('hidden');
-    processingState.classList.remove('hidden');
-
-    setTimeout(() => {
-      const now = new Date();
-      order.status = 'pickedUp';
-      order.pickedUpDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      saveOrder(order);
-
-      processingState.classList.add('hidden');
-      confirmedState.classList.remove('hidden');
-      const check = confirmedState.querySelector('.confirm-check');
-      check.classList.remove('pop-in');
-      void check.offsetWidth; // force reflow so the animation reliably restarts
-      check.classList.add('pop-in');
-      render();
-    }, 450);
-  }, 350);
+    confirmedState.classList.remove('hidden');
+    const check = confirmedState.querySelector('.confirm-check');
+    check.classList.remove('pop-in');
+    void check.offsetWidth; // force reflow so the animation reliably restarts
+    check.classList.add('pop-in');
+    render();
+  }, 300);
 }
 
 // swipe-to-confirm gesture

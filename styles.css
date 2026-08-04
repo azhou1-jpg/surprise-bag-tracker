@@ -412,21 +412,6 @@ html, body {
 }
 .swipe-knob:active { cursor: grabbing; }
 
-#processing-state {
-  display: flex;
-  justify-content: center;
-  padding: 20px 0 24px;
-}
-.spinner {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 3px solid rgba(3,86,88,0.15);
-  border-top-color: var(--teal);
-  animation: spin .7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
 .confirm-check {
   width: 56px;
   height: 56px;
